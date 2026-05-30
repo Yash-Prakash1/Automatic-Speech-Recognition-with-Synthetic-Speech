@@ -1,18 +1,54 @@
-# Automatic-Speech-Recognition-with-Synthetic-Speech
-Introduction to Deep Learning (11.785) - Project [[Paper]](https://github.com/NikhilCG26/Automatic-Speech-Recognition-with-Synthetic-Speech/blob/main/IDL_Project___Final_Report.pdf)
+# Automatic Speech Recognition with Synthetic Speech
 
-This paper explores a solution to one of the main factors stunting the acceleration of
-state-of-the-art speech recognition systems. This is the acquisition of high-quality
-data. To remove excess costs in acquiring the required data, the area of synthetic
-speech generation and its applications in training is being tested. This paper
-aims to test the hypothesis of solely synthetic speech being capable of training a
-speech recognizer that is comparable to a model trained using actual human speech.
+Can a speech recognizer trained only on synthetic speech match one trained on real
+human speech? This project tests that hypothesis end to end. It was built for 11-785
+Introduction to Deep Learning at Carnegie Mellon University, as a team project in
+which I was an equal contributor.
 
-# How to setup synthetic speech generation and recognition pipeline
-In the VITS synthetic speech generation notebook, add the transcript for which you would like to generate synthetic speech. Once VITS has completed generating the .WAV files, convert them to MFCCs. This is a required step as the LAS architecture is setup to read audio in the form of MFCCs.
+## The problem it solves
 
-To replicate our results, we use the transcripts from Librispeech train-clean-360.
+High quality labeled speech data is one of the main bottlenecks for state of the art
+speech recognition. Collecting and transcribing human audio is expensive. This project
+asks whether synthetic speech, generated automatically from text, can stand in for
+that data and still train a speech recognizer of comparable quality.
 
-After the audio is converted to MFCCs, use the LAS notebook to start training the speech recognizer. The notebook automatically computes the Word Error Rate and Levenstein Distance in the train function. We encourage users to experiment with generating large amounts of data and train LAS to see how far synthetic speech can take us.
+## What it does
 
-We value any feedback and are open to questions. Please feel free to shoot the authors questions and open issues on Github.
+* Generates synthetic speech from text transcripts using a VITS text to speech model.
+* Converts the generated audio into MFCC features, the input format the recognizer
+  expects.
+* Trains a Listen, Attend and Spell (LAS) sequence to sequence model to transcribe
+  speech back into text.
+* Evaluates the recognizer with Word Error Rate and Levenshtein distance, comparing
+  models trained on synthetic versus real speech.
+
+## Stack
+
+* Python, PyTorch
+* VITS for synthetic speech generation
+* A Listen, Attend and Spell encoder decoder architecture for recognition
+* MFCC audio features, with LibriSpeech train-clean-360 transcripts used to replicate
+  the results
+
+## Repository layout
+
+* `VITS_synthetic_speech_generation.ipynb`, the synthetic speech generation pipeline.
+* `LAS notebook.ipynb`, the speech recognizer, including training and the Word Error
+  Rate and Levenshtein distance metrics.
+* `IDL_Project___Final_Report.pdf`, the full written report.
+
+## How to run
+
+1. In the VITS notebook, add the transcripts you want to synthesize, then generate the
+   `.wav` files and convert them to MFCCs.
+2. In the LAS notebook, point the data loader at the MFCCs and run training. The
+   notebook computes Word Error Rate and Levenshtein distance during training.
+
+To replicate the reported results, use the transcripts from LibriSpeech
+train-clean-360.
+
+## Attribution
+
+This was a team project for CMU 11-785. The full author list and report are in
+[IDL_Project___Final_Report.pdf](IDL_Project___Final_Report.pdf). This repository is
+my copy of the team's work, kept public as a record of my contribution.
